@@ -8,6 +8,7 @@ import com.example.demo.dto.DoctorOutputDto;
 import com.example.demo.jpa.DoctorMongoRepository;
 import com.example.demo.jpa.ExpertiseMongoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mongodb.client.MongoClient;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;
@@ -35,8 +36,6 @@ public class DrDrService {
 
 
         HttpHeaders headers = new HttpHeaders();
-
-        int index = 1;
 
         List<String> Expertise = expertiseMongoRepository.findAllByIdNotNull();
 
@@ -80,13 +79,25 @@ public class DrDrService {
                 if (responseEntity.getStatusCode() == HttpStatus.OK) {
                     LocalDateTime saveDateTime = LocalDateTime.now();
                     String siteName = "drdr.ir";
-                        jsonPart = "{\"Id\":" + index + ",\"Date\":\"" + saveDateTime + "\",\"SIteName\":\"" + siteName + "\",\"Data\":" + jsonNode.get("pageProps").get("drsListWithPromotion") + "}";
-                        mongoClient.getDatabase("test").getCollection("doctorsByExpertise").insertOne(Document.parse(jsonPart));
 
-                    index++;
-                    current_page++;
+                    JsonNode drsListWithPromotion = jsonNode.get("pageProps").get("drsListWithPromotion");
 
+                    for (JsonNode data : drsListWithPromotion) {
+                        ObjectNode jsonPartNode = objectMapper.createObjectNode();
+                        jsonPartNode.put("Date", saveDateTime.toString());
+                        jsonPartNode.put("SIteName", siteName);
+
+                        jsonPartNode.setAll((ObjectNode) data);
+
+                        String jsonPart2 = jsonPartNode.toString();
+
+                        mongoClient.getDatabase("test").getCollection("doctorsByExpertise").insertOne(Document.parse(jsonPart2));
+                    }
                 }
+
+                current_page++;
+
+
             } while (current_page <= last_page);
 
         }
