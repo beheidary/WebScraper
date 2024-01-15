@@ -15,6 +15,6 @@ import com.example.demo.entity.CityEntity;
 
 public interface ExpertiseMongoRepository extends MongoRepository<ExpertiseEntity,String> {
 
-  //  @Query(value = "{}", fields = "{ 'LatinName' : 1}")
-   // List<String> findAllByLatinNameNotNull();
+    @Query(value = "{}", fields = "{ '_id' : 1}")
+    List<String> findAllByIdNotNull();
 }
