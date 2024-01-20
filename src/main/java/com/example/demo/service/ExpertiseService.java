@@ -24,7 +24,7 @@ public class ExpertiseService {
     private final ExpertiseMongoRepository expertiseMongoRepository;
 
     private final MongoClient mongoClient;
-    private final String apiUrl = "https://drdr.ir/_next/data/JpGQC_3c-Fyfj3i7wJgP7/search/expertise.json?slug=expertise";
+    private final String apiUrl = "https://cyclops.drnext.ir/v1/website/search/filters";
 
     private final ObjectMapper objectMapper;
     private  final ExpertiseMapper expertiseMapper;
@@ -43,15 +43,16 @@ public class ExpertiseService {
 
 
         JsonNode jsonNode = objectMapper.readTree(String.valueOf(responseEntity.getBody()));
-        JsonNode items = jsonNode.get("pageProps").get("seoFooter").get("specialities");
+        JsonNode filters = jsonNode.get("data").get("filters");
+        JsonNode items = filters.get(0).get("items");
         List<ExpertiseOutDto> expertiseOutDtos = new ArrayList<ExpertiseOutDto>();
 
         for ( JsonNode item : items) {
 
             ExpertiseEntity expertiseEntity = new ExpertiseEntity();
             expertiseEntity.setId(item.get("id").asText());
-            expertiseEntity.setSlug(item.get("slug").asText());
-            expertiseEntity.setTitle(item.get("title").asText());
+            expertiseEntity.setName(item.get("name").asText());
+
 
             expertiseOutDtos.add(arrindex,expertiseMapper.entityToDto(expertiseMongoRepository.save(expertiseEntity)));
 

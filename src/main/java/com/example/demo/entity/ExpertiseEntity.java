@@ -16,13 +16,13 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "Expertise")
+@Document(collection = "Expertise2")
 public class ExpertiseEntity {
 
     @Id
     private String id;
-    @Field("Title")
-    private String title;
+    @Field("name")
+    private String name;
     @Field("Slug")
     private String slug;
 
@@ -34,12 +34,12 @@ public class ExpertiseEntity {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String title) {
+        this.name = title;
     }
 
     public String getSlug() {
@@ -54,7 +54,7 @@ public class ExpertiseEntity {
     public String toString() {
         return "ExpertiseEntity{" +
                 "id='" + id + '\'' +
-                ", title='" + title + '\'' +
+                ", name='" + name + '\'' +
                 ", slug='" + slug + '\'' +
                 '}';
     }

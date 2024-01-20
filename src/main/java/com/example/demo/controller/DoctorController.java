@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.DoctorOutputDto;
 import com.example.demo.service.DoctorService;
+import com.example.demo.service.DoctoretoService;
 import com.example.demo.service.DrDrService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -15,17 +16,24 @@ public class DoctorController {
 
     private final DoctorService doctorService;
     private final DrDrService drdrService;
+    private final DoctoretoService doctoretoService;
 
 
     @PostMapping(value = "/doctor-info-drnext")
     public @ResponseBody
-    DoctorOutputDto getdoctorinfodrnext() throws JsonProcessingException, InterruptedException {
+    DoctorOutputDto GetDoctorInfoDrNext() throws JsonProcessingException, InterruptedException {
         return doctorService.getdoctorinfobycity();
     }
 
     @GetMapping(value = "/doctor-info-drdr")
     public @ResponseBody
-    DoctorOutputDto getdoctorinfodrdr() throws JsonProcessingException, InterruptedException {
+    DoctorOutputDto GetDoctorInfoDrDr() throws JsonProcessingException, InterruptedException {
         return drdrService.GetDoctorInfoByExpertise();
+    }
+
+    @GetMapping(value = "/doctor-info-doctoreto")
+    public @ResponseBody
+    DoctorOutputDto GetDoctorInfoDrTo() throws JsonProcessingException, InterruptedException {
+        return doctoretoService.GetDoctorInfoWithoutFilter();
     }
 }
