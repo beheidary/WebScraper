@@ -1,8 +1,12 @@
 package com.example.demo.jpa;
-
-import com.example.demo.entity.DoctorsEntity;
+import com.example.demo.entity.DoctorData;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-public interface DoctorMongoRepository extends MongoRepository<DoctorsEntity, Long> {
+import java.util.List;
+
+public interface DoctorMongoRepository extends MongoRepository<DoctorData, String> {
+
+
+    //@Query(value = "{}", fields = "{ 'LatinName' : 1}")
+    List<String> findAllBycommentCountNotNull();
 }

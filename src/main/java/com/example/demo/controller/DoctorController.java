@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.DoctorOutputDto;
+import com.example.demo.service.BoghratService;
 import com.example.demo.service.DoctorService;
 import com.example.demo.service.DoctoretoService;
 import com.example.demo.service.DrDrService;
@@ -17,6 +18,7 @@ public class DoctorController {
     private final DoctorService doctorService;
     private final DrDrService drdrService;
     private final DoctoretoService doctoretoService;
+    private final BoghratService boghratService;
 
 
     @PostMapping(value = "/doctor-info-drnext")
@@ -35,5 +37,11 @@ public class DoctorController {
     public @ResponseBody
     DoctorOutputDto GetDoctorInfoDrTo() throws JsonProcessingException, InterruptedException {
         return doctoretoService.GetDoctorInfoWithoutFilter();
+    }
+
+    @PostMapping(value = "/doctor-info-boghrat")
+    public @ResponseBody
+    DoctorOutputDto GetDoctorInfoboghrat() throws JsonProcessingException, InterruptedException {
+        return boghratService.boghratGetDoctors();
     }
 }
