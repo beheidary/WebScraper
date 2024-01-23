@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.DoctorOutputDto;
-import com.example.demo.service.BoghratService;
-import com.example.demo.service.DoctorService;
-import com.example.demo.service.DoctoretoService;
-import com.example.demo.service.DrDrService;
+import com.example.demo.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +16,8 @@ public class DoctorController {
     private final DrDrService drdrService;
     private final DoctoretoService doctoretoService;
     private final BoghratService boghratService;
+    private final SnappAppointmentService snappAppointmentService;
+    private final SnappOnlineCounselingService snappOnlineCounselingService;
 
 
     @PostMapping(value = "/doctor-info-drnext")
@@ -43,5 +42,16 @@ public class DoctorController {
     public @ResponseBody
     DoctorOutputDto GetDoctorInfoboghrat() throws JsonProcessingException, InterruptedException {
         return boghratService.boghratGetDoctors();
+    }
+
+    @GetMapping(value = "/doctor-SnappAppointment")
+    public @ResponseBody
+    DoctorOutputDto SnappAppointment() throws JsonProcessingException, InterruptedException {
+        return snappAppointmentService.GetSnappAppointmentdoctors();
+    }
+    @PostMapping(value = "/doctor-OnlineCounseling")
+    public @ResponseBody
+    DoctorOutputDto SnappOnlineCounseling() throws JsonProcessingException, InterruptedException {
+        return snappOnlineCounselingService.GetOnlineCounselingDoctors();
     }
 }
