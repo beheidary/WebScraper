@@ -18,6 +18,7 @@ public class DoctorController {
     private final BoghratService boghratService;
     private final SnappAppointmentService snappAppointmentService;
     private final SnappOnlineCounselingService snappOnlineCounselingService;
+    private final SnapDoctorFullDetailService snapDoctorFullDetailService;
 
 
     @PostMapping(value = "/doctor-info-drnext")
@@ -53,5 +54,11 @@ public class DoctorController {
     public @ResponseBody
     DoctorOutputDto SnappOnlineCounseling() throws JsonProcessingException, InterruptedException {
         return snappOnlineCounselingService.GetOnlineCounselingDoctors();
+    }
+
+    @GetMapping(value = "/doctor-SnappFull")
+    public @ResponseBody
+    DoctorOutputDto SnappFull() throws JsonProcessingException, InterruptedException {
+        return snapDoctorFullDetailService.SnappFullDetail();
     }
 }
