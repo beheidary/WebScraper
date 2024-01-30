@@ -18,7 +18,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class CityEntity {
 
     @Id
-
     private String id;
     @Field("Name")
     private String name;

@@ -19,6 +19,7 @@ public class DoctorController {
     private final SnappAppointmentService snappAppointmentService;
     private final SnappOnlineCounselingService snappOnlineCounselingService;
     private final SnapDoctorFullDetailService snapDoctorFullDetailService;
+    private final DoctorCollectionUpdate doctorCollectionUpdate;
 
 
     @PostMapping(value = "/doctor-info-drnext")
@@ -60,5 +61,12 @@ public class DoctorController {
     public @ResponseBody
     DoctorOutputDto SnappFull() throws JsonProcessingException, InterruptedException {
         return snapDoctorFullDetailService.SnappFullDetail();
+    }
+
+    public String innerUpdate() throws JsonProcessingException, InterruptedException {
+
+        System.out.println(doctorCollectionUpdate.DoctorkUpdate());
+
+        return "in controller";
     }
 }

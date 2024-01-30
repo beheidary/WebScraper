@@ -1,23 +1,23 @@
-package com.example.demo.jpa;
+package com.example.demo.service;
 
 
+import com.example.demo.entity.DoctorK;
+import com.example.demo.jpa.DoctorKRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
 import org.bson.Document;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCursor;
 
 
-    public class CollectionUpdate {
+public class CollectionUpdate {
 
         private static JsonNode jsonNode;
+
+        private static DoctorKRepository doctorKRepository;
         static ObjectMapper mapper = new ObjectMapper();
         static ObjectReader reader = mapper.reader(JsonNode.class);
 
@@ -30,40 +30,41 @@ import com.mongodb.client.MongoCursor;
             try (var mongoClient = MongoClients.create(settings)) {
                 MongoDatabase database = mongoClient.getDatabase("test");
 
-                MongoCollection<Document> collection = database.getCollection("doctorsByCity");
+                MongoCollection<Document> collectionDoctorK = database.getCollection("DoctorK");
+                MongoCollection<Document> collectionboghratDoctors = database.getCollection("boghratDoctors");
 
 
-                FindIterable<Document> documents = collection.find();
+
+                FindIterable<Document> DoctorKdocuments = collectionDoctorK.find();
+                DoctorK doctorKDocument  = doctorKRepository.findBynezam("454545");
+                System.out.println(doctorKDocument);
+                FindIterable<Document> boghratDoctorsdocuments = collectionboghratDoctors.find();
+
 
                 int counter = 1;
-                try (MongoCursor<Document> cursor = documents.iterator()) {
+                try (MongoCursor<Document> cursor = boghratDoctorsdocuments.iterator()) {
                     while (cursor.hasNext()) {
                         Document document = cursor.next();
 
                         JsonNode node = reader.readValue(document.toJson());
-                        for (JsonNode data : node.get("Data").get("data")){
-                            ObjectNode jsonPartNode = mapper.createObjectNode();
-                            jsonPartNode.put("Id" , counter );
-                            jsonPartNode.put("Date", node.get("Date"));
-                            jsonPartNode.put("SiteName", node.get("SIteName"));
 
-                            jsonPartNode.setAll((ObjectNode) data);
+                            ObjectNode jsonPartNode = mapper.createObjectNode();
+                            jsonPartNode.put("id",counter);
+                            String fullName = node.get("fullName").asText();
+                            jsonPartNode.put("full_name",fullName.substring(5) );
+                            jsonPartNode.put("active_count", 1);
+                            jsonPartNode.put("sites", "doctoreto_");
+                            jsonPartNode.put("nezam_code", node.get("medicalNumber"));
 
                             String jsonPart2 = jsonPartNode.toString();
 
-
-
-                            database.getCollection("DoctoreNext").insertOne(Document.parse(jsonPart2));
-
-
-                        }
-
+                            database.getCollection("DoctorK").insertOne(Document.parse(jsonPart2));
 
 
                         counter++;
                     }
                 }
-
+//
                 System.out.println("Field added successfully to all documents.");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -131,3 +132,13 @@ import com.mongodb.client.MongoCursor;
 //        // Delete the remaining duplicate documents
 //        db.DoctoreNext.deleteMany({ _id: { $in: doc.uniqueIds } });
 //        });
+
+
+//copy collection
+//
+//        db.DoctorK.find().forEach(
+//                function(x){
+//                db.CopyDoctorK.insert(x)
+//                }
+//                )
+

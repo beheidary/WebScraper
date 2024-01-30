@@ -17,7 +17,7 @@ package com.example.demo.service;
         import org.springframework.web.client.RestTemplate;
         import com.fasterxml.jackson.databind.ObjectMapper;
         import java.time.LocalDateTime;
-        import com.example.demo.jpa.CityMongoRepository;
+//        import com.example.demo.jpa.CityMongoRepository;
         import com.fasterxml.jackson.databind.JsonNode;
         import java.util.List;
 
